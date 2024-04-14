@@ -1,0 +1,28 @@
+name: Generate Snake Game
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Executa à meia-noite todos os dias
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Render Snake Game
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate Snake Animation
+      uses: Platane/snk@master
+      with:
+        github_user_name: ByteBandit0101
+        svg_out_path: dist/github-contribution-grid-snake.svg
+
+    - name: Commit and Push
+      run: |
+        git config --global user.email "lucasazevedo.p77@gmail.com"
+        git config --global user.name "ByteBandit0101"
+        git add dist/github-contribution-grid-snake.svg
+        git commit -m "Update GitHub Contributions Snake Game" || echo "No changes to commit"
+        git push
